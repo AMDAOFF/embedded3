@@ -18,6 +18,7 @@ void SPI_SlaveInit(void)
 }
 char SPI_SlaveReceive(void)
 {
+	printf("Waiting for master");
 	/* Wait for reception complete */
 	while(!(SPSR & (1<<SPIF)))
 	;
@@ -27,7 +28,11 @@ char SPI_SlaveReceive(void)
 
 int main(void)
 {
-	while(1) {
-		printf("Welcome");
+	printf("Before waiting for master");
+	SPI_SlaveInit();
+	while (1)
+	{
+		printf("Waiting for master");
+		//printf(SPI_SlaveReceive());
 	}
 }
