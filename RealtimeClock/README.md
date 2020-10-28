@@ -1,0 +1,2 @@
+# Embedded Realtime Clock
+### Pinout
