@@ -23,3 +23,17 @@ void DHT_Init(void)
 	_delay_ms(0.040);
 	DHT_DDR &= ~(1<<DHT_PIN);		// Sets the PB4 to input
 }
+
+void DHT_Read(void)
+{
+	int count = 0;
+	while(DHT_PORT &= ~(1<<DHT_PIN))
+	{
+		_delay_ms(0.002);
+		count++;
+		if (count > 10)
+		{
+			break;
+		}
+	}
+}

@@ -12,6 +12,7 @@ int main(void)
 	printf("test");
 
 	DHT_Init();
+	DHT_Read();
 
 	while(1) {
 	}

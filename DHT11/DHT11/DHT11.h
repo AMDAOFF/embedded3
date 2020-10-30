@@ -21,5 +21,6 @@
 #define clear_bit(port, bit)
 
 void DHT_Init(void);
+void DHT_Read(void);
 
 #endif /* DHT11_H_ */
