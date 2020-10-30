@@ -3,31 +3,31 @@ DS3231.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000012  00800200  00000588  0000061c  2**0
+  0 .data         00000012  00800200  0000057e  00000612  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000588  00000000  00000000  00000094  2**1
+  1 .text         0000057e  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000049  00800212  00800212  0000062e  2**0
+  2 .bss          00000049  00800212  00800212  00000624  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  0000062e  2**0
+  3 .comment      00000030  00000000  00000000  00000624  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000660  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000654  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000000f8  00000000  00000000  000006a0  2**0
+  5 .debug_aranges 000000f8  00000000  00000000  00000694  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00001865  00000000  00000000  00000798  2**0
+  6 .debug_info   00001863  00000000  00000000  0000078c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000f9c  00000000  00000000  00001ffd  2**0
+  7 .debug_abbrev 00000f9c  00000000  00000000  00001fef  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000aa0  00000000  00000000  00002f99  2**0
+  8 .debug_line   00000aa0  00000000  00000000  00002f8b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000238  00000000  00000000  00003a3c  2**2
+  9 .debug_frame  00000238  00000000  00000000  00003a2c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000074a  00000000  00000000  00003c74  2**0
+ 10 .debug_str    0000074a  00000000  00000000  00003c64  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000495  00000000  00000000  000043be  2**0
+ 11 .debug_loc    00000495  00000000  00000000  000043ae  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000c8  00000000  00000000  00004853  2**0
+ 12 .debug_ranges 000000c8  00000000  00000000  00004843  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -162,7 +162,7 @@ Disassembly of section .text:
   f4:	12 e0       	ldi	r17, 0x02	; 2
   f6:	a0 e0       	ldi	r26, 0x00	; 0
   f8:	b2 e0       	ldi	r27, 0x02	; 2
-  fa:	e8 e8       	ldi	r30, 0x88	; 136
+  fa:	ee e7       	ldi	r30, 0x7E	; 126
   fc:	f5 e0       	ldi	r31, 0x05	; 5
   fe:	00 e0       	ldi	r16, 0x00	; 0
  100:	0b bf       	out	0x3b, r16	; 59
@@ -187,7 +187,7 @@ Disassembly of section .text:
  11a:	b2 07       	cpc	r27, r18
  11c:	e1 f7       	brne	.-8      	; 0x116 <.do_clear_bss_loop>
  11e:	bb d1       	rcall	.+886    	; 0x496 <main>
- 120:	31 c2       	rjmp	.+1122   	; 0x584 <_exit>
+ 120:	2c c2       	rjmp	.+1112   	; 0x57a <_exit>
 
 00000122 <__bad_interrupt>:
  122:	6e cf       	rjmp	.-292    	; 0x0 <__vectors>
@@ -563,7 +563,7 @@ void DS3231_getDateTime(void)
  33a:	6f 5f       	subi	r22, 0xFF	; 255
  33c:	7f 4f       	sbci	r23, 0xFF	; 255
  33e:	90 e0       	ldi	r25, 0x00	; 0
- 340:	e4 d0       	rcall	.+456    	; 0x50a <itoa>
+ 340:	df d0       	rcall	.+446    	; 0x500 <itoa>
 	itoa(bcd2dec(today.min), dateAndTime.minutes, 10);  //min
  342:	f8 01       	movw	r30, r16
  344:	81 81       	ldd	r24, Z+1	; 0x01
@@ -574,7 +574,7 @@ void DS3231_getDateTime(void)
  34e:	6c 5f       	subi	r22, 0xFC	; 252
  350:	7f 4f       	sbci	r23, 0xFF	; 255
  352:	90 e0       	ldi	r25, 0x00	; 0
- 354:	da d0       	rcall	.+436    	; 0x50a <itoa>
+ 354:	d5 d0       	rcall	.+426    	; 0x500 <itoa>
 	itoa(bcd2dec(today.sec), dateAndTime.seconds, 10);   //sec
  356:	f8 01       	movw	r30, r16
  358:	80 81       	ld	r24, Z
@@ -585,7 +585,7 @@ void DS3231_getDateTime(void)
  362:	69 5f       	subi	r22, 0xF9	; 249
  364:	7f 4f       	sbci	r23, 0xFF	; 255
  366:	90 e0       	ldi	r25, 0x00	; 0
- 368:	d0 d0       	rcall	.+416    	; 0x50a <itoa>
+ 368:	cb d0       	rcall	.+406    	; 0x500 <itoa>
 	itoa(bcd2dec(today.date), dateAndTime.days, 10);  //day
  36a:	f8 01       	movw	r30, r16
  36c:	84 81       	ldd	r24, Z+4	; 0x04
@@ -596,7 +596,7 @@ void DS3231_getDateTime(void)
  376:	60 5f       	subi	r22, 0xF0	; 240
  378:	7f 4f       	sbci	r23, 0xFF	; 255
  37a:	90 e0       	ldi	r25, 0x00	; 0
- 37c:	c6 d0       	rcall	.+396    	; 0x50a <itoa>
+ 37c:	c1 d0       	rcall	.+386    	; 0x500 <itoa>
 	itoa(bcd2dec(today.month), dateAndTime.months, 10); //month
  37e:	f8 01       	movw	r30, r16
  380:	85 81       	ldd	r24, Z+5	; 0x05
@@ -607,7 +607,7 @@ void DS3231_getDateTime(void)
  38a:	63 5f       	subi	r22, 0xF3	; 243
  38c:	7f 4f       	sbci	r23, 0xFF	; 255
  38e:	90 e0       	ldi	r25, 0x00	; 0
- 390:	bc d0       	rcall	.+376    	; 0x50a <itoa>
+ 390:	b7 d0       	rcall	.+366    	; 0x500 <itoa>
 	itoa(bcd2dec(today.year), dateAndTime.years, 10);  //year
  392:	f8 01       	movw	r30, r16
  394:	86 81       	ldd	r24, Z+6	; 0x06
@@ -618,7 +618,7 @@ void DS3231_getDateTime(void)
  39e:	66 5f       	subi	r22, 0xF6	; 246
  3a0:	7f 4f       	sbci	r23, 0xFF	; 255
  3a2:	90 e0       	ldi	r25, 0x00	; 0
- 3a4:	b2 d0       	rcall	.+356    	; 0x50a <itoa>
+ 3a4:	ad d0       	rcall	.+346    	; 0x500 <itoa>
  3a6:	04 e1       	ldi	r16, 0x14	; 20
  3a8:	12 e0       	ldi	r17, 0x02	; 2
 	
@@ -640,7 +640,7 @@ void DS3231_getDateTime(void)
  3c4:	6f 5f       	subi	r22, 0xFF	; 255
  3c6:	7f 4f       	sbci	r23, 0xFF	; 255
  3c8:	c8 01       	movw	r24, r16
- 3ca:	94 d0       	rcall	.+296    	; 0x4f4 <strcat>
+ 3ca:	8f d0       	rcall	.+286    	; 0x4ea <strcat>
  3cc:	f8 01       	movw	r30, r16
  3ce:	01 90       	ld	r0, Z+
 	strcat(msg,":");
@@ -660,7 +660,7 @@ void DS3231_getDateTime(void)
  3e6:	6c 5f       	subi	r22, 0xFC	; 252
  3e8:	7f 4f       	sbci	r23, 0xFF	; 255
  3ea:	c8 01       	movw	r24, r16
- 3ec:	83 d0       	rcall	.+262    	; 0x4f4 <strcat>
+ 3ec:	7e d0       	rcall	.+252    	; 0x4ea <strcat>
  3ee:	f8 01       	movw	r30, r16
 	strcat(msg,":");
  3f0:	01 90       	ld	r0, Z+
@@ -675,7 +675,7 @@ void DS3231_getDateTime(void)
  3fe:	69 5f       	subi	r22, 0xF9	; 249
  400:	7f 4f       	sbci	r23, 0xFF	; 255
  402:	c8 01       	movw	r24, r16
- 404:	77 d0       	rcall	.+238    	; 0x4f4 <strcat>
+ 404:	72 d0       	rcall	.+228    	; 0x4ea <strcat>
  406:	d8 01       	movw	r26, r16
  408:	0d 90       	ld	r0, X+
 	strcat(msg," Date: ");
@@ -695,7 +695,7 @@ void DS3231_getDateTime(void)
  420:	60 5f       	subi	r22, 0xF0	; 240
  422:	7f 4f       	sbci	r23, 0xFF	; 255
  424:	c8 01       	movw	r24, r16
- 426:	66 d0       	rcall	.+204    	; 0x4f4 <strcat>
+ 426:	61 d0       	rcall	.+194    	; 0x4ea <strcat>
  428:	f8 01       	movw	r30, r16
 	strcat(msg,"/");
  42a:	01 90       	ld	r0, Z+
@@ -712,7 +712,7 @@ void DS3231_getDateTime(void)
  43c:	63 5f       	subi	r22, 0xF3	; 243
  43e:	7f 4f       	sbci	r23, 0xFF	; 255
  440:	c8 01       	movw	r24, r16
- 442:	58 d0       	rcall	.+176    	; 0x4f4 <strcat>
+ 442:	53 d0       	rcall	.+166    	; 0x4ea <strcat>
  444:	f8 01       	movw	r30, r16
 	strcat(msg,"/20");
  446:	01 90       	ld	r0, Z+
@@ -733,7 +733,7 @@ void DS3231_getDateTime(void)
  460:	66 5f       	subi	r22, 0xF6	; 246
  462:	7f 4f       	sbci	r23, 0xFF	; 255
  464:	c8 01       	movw	r24, r16
- 466:	46 d0       	rcall	.+140    	; 0x4f4 <strcat>
+ 466:	41 d0       	rcall	.+130    	; 0x4ea <strcat>
 	
 	send_char(msg);
  468:	c8 01       	movw	r24, r16
@@ -824,109 +824,104 @@ int main(void)
 	while (1)
 	{
 		DS3231_getDateTime();
- 4e0:	2f ef       	ldi	r18, 0xFF	; 255
- 4e2:	83 ed       	ldi	r24, 0xD3	; 211
+ 4e0:	8a e6       	ldi	r24, 0x6A	; 106
+ 4e2:	8a 95       	dec	r24
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 4e4:	90 e3       	ldi	r25, 0x30	; 48
- 4e6:	21 50       	subi	r18, 0x01	; 1
- 4e8:	80 40       	sbci	r24, 0x00	; 0
- 4ea:	90 40       	sbci	r25, 0x00	; 0
- 4ec:	e1 f7       	brne	.-8      	; 0x4e6 <main+0x50>
- 4ee:	00 c0       	rjmp	.+0      	; 0x4f0 <main+0x5a>
- 4f0:	00 00       	nop
- 4f2:	f5 cf       	rjmp	.-22     	; 0x4de <main+0x48>
+ 4e4:	f1 f7       	brne	.-4      	; 0x4e2 <main+0x4c>
+ 4e6:	00 c0       	rjmp	.+0      	; 0x4e8 <main+0x52>
+ 4e8:	fa cf       	rjmp	.-12     	; 0x4de <main+0x48>
 
-000004f4 <strcat>:
- 4f4:	fb 01       	movw	r30, r22
- 4f6:	dc 01       	movw	r26, r24
- 4f8:	0d 90       	ld	r0, X+
+000004ea <strcat>:
+ 4ea:	fb 01       	movw	r30, r22
+ 4ec:	dc 01       	movw	r26, r24
+ 4ee:	0d 90       	ld	r0, X+
+ 4f0:	00 20       	and	r0, r0
+ 4f2:	e9 f7       	brne	.-6      	; 0x4ee <strcat+0x4>
+ 4f4:	11 97       	sbiw	r26, 0x01	; 1
+ 4f6:	01 90       	ld	r0, Z+
+ 4f8:	0d 92       	st	X+, r0
  4fa:	00 20       	and	r0, r0
- 4fc:	e9 f7       	brne	.-6      	; 0x4f8 <strcat+0x4>
- 4fe:	11 97       	sbiw	r26, 0x01	; 1
- 500:	01 90       	ld	r0, Z+
- 502:	0d 92       	st	X+, r0
- 504:	00 20       	and	r0, r0
- 506:	e1 f7       	brne	.-8      	; 0x500 <strcat+0xc>
- 508:	08 95       	ret
+ 4fc:	e1 f7       	brne	.-8      	; 0x4f6 <strcat+0xc>
+ 4fe:	08 95       	ret
 
-0000050a <itoa>:
- 50a:	45 32       	cpi	r20, 0x25	; 37
- 50c:	51 05       	cpc	r21, r1
- 50e:	18 f4       	brcc	.+6      	; 0x516 <itoa+0xc>
- 510:	42 30       	cpi	r20, 0x02	; 2
- 512:	08 f0       	brcs	.+2      	; 0x516 <itoa+0xc>
- 514:	04 c0       	rjmp	.+8      	; 0x51e <__itoa_ncheck>
- 516:	fb 01       	movw	r30, r22
- 518:	10 82       	st	Z, r1
- 51a:	cb 01       	movw	r24, r22
- 51c:	08 95       	ret
+00000500 <itoa>:
+ 500:	45 32       	cpi	r20, 0x25	; 37
+ 502:	51 05       	cpc	r21, r1
+ 504:	18 f4       	brcc	.+6      	; 0x50c <itoa+0xc>
+ 506:	42 30       	cpi	r20, 0x02	; 2
+ 508:	08 f0       	brcs	.+2      	; 0x50c <itoa+0xc>
+ 50a:	04 c0       	rjmp	.+8      	; 0x514 <__itoa_ncheck>
+ 50c:	fb 01       	movw	r30, r22
+ 50e:	10 82       	st	Z, r1
+ 510:	cb 01       	movw	r24, r22
+ 512:	08 95       	ret
 
-0000051e <__itoa_ncheck>:
- 51e:	bb 27       	eor	r27, r27
- 520:	4a 30       	cpi	r20, 0x0A	; 10
- 522:	31 f4       	brne	.+12     	; 0x530 <__itoa_ncheck+0x12>
- 524:	99 23       	and	r25, r25
- 526:	22 f4       	brpl	.+8      	; 0x530 <__itoa_ncheck+0x12>
- 528:	bd e2       	ldi	r27, 0x2D	; 45
- 52a:	90 95       	com	r25
- 52c:	81 95       	neg	r24
- 52e:	9f 4f       	sbci	r25, 0xFF	; 255
- 530:	01 c0       	rjmp	.+2      	; 0x534 <__utoa_common>
+00000514 <__itoa_ncheck>:
+ 514:	bb 27       	eor	r27, r27
+ 516:	4a 30       	cpi	r20, 0x0A	; 10
+ 518:	31 f4       	brne	.+12     	; 0x526 <__itoa_ncheck+0x12>
+ 51a:	99 23       	and	r25, r25
+ 51c:	22 f4       	brpl	.+8      	; 0x526 <__itoa_ncheck+0x12>
+ 51e:	bd e2       	ldi	r27, 0x2D	; 45
+ 520:	90 95       	com	r25
+ 522:	81 95       	neg	r24
+ 524:	9f 4f       	sbci	r25, 0xFF	; 255
+ 526:	01 c0       	rjmp	.+2      	; 0x52a <__utoa_common>
 
-00000532 <__utoa_ncheck>:
- 532:	bb 27       	eor	r27, r27
+00000528 <__utoa_ncheck>:
+ 528:	bb 27       	eor	r27, r27
 
-00000534 <__utoa_common>:
- 534:	fb 01       	movw	r30, r22
- 536:	55 27       	eor	r21, r21
- 538:	aa 27       	eor	r26, r26
- 53a:	88 0f       	add	r24, r24
- 53c:	99 1f       	adc	r25, r25
- 53e:	aa 1f       	adc	r26, r26
- 540:	a4 17       	cp	r26, r20
- 542:	10 f0       	brcs	.+4      	; 0x548 <__utoa_common+0x14>
- 544:	a4 1b       	sub	r26, r20
- 546:	83 95       	inc	r24
- 548:	50 51       	subi	r21, 0x10	; 16
- 54a:	b9 f7       	brne	.-18     	; 0x53a <__utoa_common+0x6>
- 54c:	a0 5d       	subi	r26, 0xD0	; 208
- 54e:	aa 33       	cpi	r26, 0x3A	; 58
- 550:	08 f0       	brcs	.+2      	; 0x554 <__utoa_common+0x20>
- 552:	a9 5d       	subi	r26, 0xD9	; 217
- 554:	a1 93       	st	Z+, r26
- 556:	00 97       	sbiw	r24, 0x00	; 0
- 558:	79 f7       	brne	.-34     	; 0x538 <__utoa_common+0x4>
- 55a:	b1 11       	cpse	r27, r1
- 55c:	b1 93       	st	Z+, r27
- 55e:	11 92       	st	Z+, r1
- 560:	cb 01       	movw	r24, r22
- 562:	00 c0       	rjmp	.+0      	; 0x564 <strrev>
+0000052a <__utoa_common>:
+ 52a:	fb 01       	movw	r30, r22
+ 52c:	55 27       	eor	r21, r21
+ 52e:	aa 27       	eor	r26, r26
+ 530:	88 0f       	add	r24, r24
+ 532:	99 1f       	adc	r25, r25
+ 534:	aa 1f       	adc	r26, r26
+ 536:	a4 17       	cp	r26, r20
+ 538:	10 f0       	brcs	.+4      	; 0x53e <__utoa_common+0x14>
+ 53a:	a4 1b       	sub	r26, r20
+ 53c:	83 95       	inc	r24
+ 53e:	50 51       	subi	r21, 0x10	; 16
+ 540:	b9 f7       	brne	.-18     	; 0x530 <__utoa_common+0x6>
+ 542:	a0 5d       	subi	r26, 0xD0	; 208
+ 544:	aa 33       	cpi	r26, 0x3A	; 58
+ 546:	08 f0       	brcs	.+2      	; 0x54a <__utoa_common+0x20>
+ 548:	a9 5d       	subi	r26, 0xD9	; 217
+ 54a:	a1 93       	st	Z+, r26
+ 54c:	00 97       	sbiw	r24, 0x00	; 0
+ 54e:	79 f7       	brne	.-34     	; 0x52e <__utoa_common+0x4>
+ 550:	b1 11       	cpse	r27, r1
+ 552:	b1 93       	st	Z+, r27
+ 554:	11 92       	st	Z+, r1
+ 556:	cb 01       	movw	r24, r22
+ 558:	00 c0       	rjmp	.+0      	; 0x55a <strrev>
 
-00000564 <strrev>:
- 564:	dc 01       	movw	r26, r24
- 566:	fc 01       	movw	r30, r24
- 568:	67 2f       	mov	r22, r23
- 56a:	71 91       	ld	r23, Z+
- 56c:	77 23       	and	r23, r23
- 56e:	e1 f7       	brne	.-8      	; 0x568 <strrev+0x4>
- 570:	32 97       	sbiw	r30, 0x02	; 2
- 572:	04 c0       	rjmp	.+8      	; 0x57c <strrev+0x18>
- 574:	7c 91       	ld	r23, X
- 576:	6d 93       	st	X+, r22
- 578:	70 83       	st	Z, r23
- 57a:	62 91       	ld	r22, -Z
- 57c:	ae 17       	cp	r26, r30
- 57e:	bf 07       	cpc	r27, r31
- 580:	c8 f3       	brcs	.-14     	; 0x574 <strrev+0x10>
- 582:	08 95       	ret
+0000055a <strrev>:
+ 55a:	dc 01       	movw	r26, r24
+ 55c:	fc 01       	movw	r30, r24
+ 55e:	67 2f       	mov	r22, r23
+ 560:	71 91       	ld	r23, Z+
+ 562:	77 23       	and	r23, r23
+ 564:	e1 f7       	brne	.-8      	; 0x55e <strrev+0x4>
+ 566:	32 97       	sbiw	r30, 0x02	; 2
+ 568:	04 c0       	rjmp	.+8      	; 0x572 <strrev+0x18>
+ 56a:	7c 91       	ld	r23, X
+ 56c:	6d 93       	st	X+, r22
+ 56e:	70 83       	st	Z, r23
+ 570:	62 91       	ld	r22, -Z
+ 572:	ae 17       	cp	r26, r30
+ 574:	bf 07       	cpc	r27, r31
+ 576:	c8 f3       	brcs	.-14     	; 0x56a <strrev+0x10>
+ 578:	08 95       	ret
 
-00000584 <_exit>:
- 584:	f8 94       	cli
+0000057a <_exit>:
+ 57a:	f8 94       	cli
 
-00000586 <__stop_program>:
- 586:	ff cf       	rjmp	.-2      	; 0x586 <__stop_program>
+0000057c <__stop_program>:
+ 57c:	ff cf       	rjmp	.-2      	; 0x57c <__stop_program>

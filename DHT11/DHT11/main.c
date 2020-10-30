@@ -5,15 +5,27 @@
 #include "stdio_setup.h"
 #include "DHT11.h"
 
+uint16_t data[5];
+
 int main(void)
 {
 	
 	UartInit();
-	printf("test");
+	DHT_Init();				/* send start pulse */
+	DHT_Response();			/* receive response */
 
-	DHT_Init();
-	DHT_Read();
 
-	while(1) {
-	}
+	
+ while(1)
+ {			
+
+	 data[0]=Receive_data();	/* store first eight bit in I_RH */
+	 data[1]=Receive_data();	/* store next eight bit in D_RH */
+	 data[2]=Receive_data();	/* store next eight bit in I_Temp */
+	 data[3]=Receive_data();	/* store next eight bit in D_Temp */
+	 data[4]=Receive_data();/* store next eight bit in CheckSum */
+	 
+	 printf(data[0]);
+	 _delay_ms(500);
+ }
 }
