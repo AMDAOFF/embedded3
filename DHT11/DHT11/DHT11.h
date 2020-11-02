@@ -32,6 +32,6 @@ enum DHT_Status_t{
 	
 void DHT_Init(void);
 void DHT_Read(uint8_t *pTemp, uint8_t *pHum);
-DHT_Status_t GetDHTStatus(void);
+//DHT_Status_t GetDHTStatus(void);
 
 #endif /* DHT11_H_ */

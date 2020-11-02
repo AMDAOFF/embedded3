@@ -4,6 +4,8 @@
 
 DHT11.c
 
+DHT11\DHT11_test.c
+
 main.c
 
 setup\stdio_setup.c
