@@ -12,6 +12,19 @@
 */
 
 
+/*		PINOUT
+-------------------------
+|  ESP8266	|	PINS	|
+-------------------------
+|	RxD		|	Tx1		|
+-------------------------
+|	TxD		| Tx0 / Rx0	|
+-------------------------
+|	RxD		|	Tx1		|
+-------------------------
+*/
+
+
 #define F_CPU 16e6				/* Define CPU Frequency e.g. here its Ext. 12MHz */
 #include <avr/io.h>						/* Include AVR std. library file */
 #include <util/delay.h>					/* Include Delay header file */
@@ -348,9 +361,11 @@ int main(void)
 	ESP8266_WIFIMode(BOTH_STATION_AND_ACCESPOINT);		/* 3 = Both (AP and STA) */
 	ESP8266_ConnectionMode(SINGLE);						/* 0 = Single; 1 = Multi */
 	ESP8266_ApplicationMode(NORMAL);					/* 0 = Normal Mode; 1 = Transperant Mode */
-	if(ESP8266_connected() == ESP8266_NOT_CONNECTED_TO_AP)
-	ESP8266_JoinAccessPoint(SSID, PASSWORD);
-	ESP8266_Start(0, DOMAIN, PORT);
+	if(ESP8266_connected() == ESP8266_NOT_CONNECTED_TO_AP)			// If not connected to wifi, create a connection
+	{			
+		ESP8266_JoinAccessPoint(SSID, PASSWORD);
+		ESP8266_Start(0, DOMAIN, PORT);
+	}
 	while(1)
 	{
 		DHT_WakeUp();									// Checks if DHT11 is online
