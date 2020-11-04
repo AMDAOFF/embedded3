@@ -1,13 +1,13 @@
 /*
- * DHT11_test.h
+ * DHT11.h
  *
  * Created: 02-11-2020 08:17:18
- *  Author: Kenneth
+ *  Author: Kenneth, Krisitan og Jimmy ;)
  */ 
 
 
-#ifndef DHT11_TEST_H_
-#define DHT11_TEST_H_
+#ifndef DHT11_H_
+#define DHT11_H_
 
 
 #ifndef  F_CPU
@@ -31,4 +31,4 @@ void DHT_Decode_Data(int (*array)[8]);
 int ConvertToDecimal(int (*array)[8], int byte);
 
 
-#endif /* DHT11_TEST_H_ */
+#endif /* DHT11_H_ */

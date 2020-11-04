@@ -39,7 +39,7 @@ SUBDIRS :=  \
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
-../DHT11_test.c \
+../DHT11.c \
 ../main.c \
 ../setup/stdio_setup.c \
 ../USART_RS232_C_file.c
@@ -52,25 +52,25 @@ ASM_SRCS +=
 
 
 OBJS +=  \
-DHT11_test.o \
+DHT11.o \
 main.o \
 setup/stdio_setup.o \
 USART_RS232_C_file.o
 
 OBJS_AS_ARGS +=  \
-DHT11_test.o \
+DHT11.o \
 main.o \
 setup/stdio_setup.o \
 USART_RS232_C_file.o
 
 C_DEPS +=  \
-DHT11_test.d \
+DHT11.d \
 main.d \
 setup/stdio_setup.d \
 USART_RS232_C_file.d
 
 C_DEPS_AS_ARGS +=  \
-DHT11_test.d \
+DHT11.d \
 main.d \
 setup/stdio_setup.d \
 USART_RS232_C_file.d
@@ -89,7 +89,7 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
-./DHT11_test.o: .././DHT11_test.c
+./DHT11.o: .././DHT11.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.90\include" -I"../setup" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
