@@ -2,7 +2,7 @@
  * ESP8266_Master.c
  *
  * Created: 03-11-2020 11:13:20
- *  Author: Kenneth
+ *  Author: Kenneth, Kristian og Jimmy
  */ 
 
 /*
@@ -21,6 +21,7 @@
 #include <stdlib.h>						/* Include standard library */
 #include <avr/interrupt.h>				/* Include avr interrupt header file */
 #include "USART_RS232_H_file.h"			/* Include USART header file */
+#include "DHT11_test.h"
 
 #define SREG    _SFR_IO8(0x3F)
 
@@ -165,16 +166,16 @@ void GetResponseBody(char* Response, uint16_t ResponseLength)
 
 bool WaitForExpectedResponse(char* ExpectedResponse)
 {
-	Start_Read_Response(ExpectedResponse);	/* First read response */
+	Start_Read_Response(ExpectedResponse);						/* First read response */
 	if((Response_Status != ESP8266_RESPONSE_TIMEOUT))
-	return true;				/* Return true for success */
-	return false;				/* Else return false */
+	return true;												/* Return true for success */
+	return false;												/* Else return false */
 }
 
 bool SendATandExpectResponse(char* ATCommand, char* ExpectedResponse)
 {
 	ESP8266_Clear();
-	USART_SendString(ATCommand);		/* Send AT command to ESP8266 */
+	USART_SendString(ATCommand);								/* Send AT command to ESP8266 */
 	USART_SendString("\r\n");
 	return WaitForExpectedResponse(ExpectedResponse);
 }
@@ -320,11 +321,11 @@ uint16_t Read_Data(char* _buffer)
 	return len;
 }
 
-ISR (USART1_RX_vect)
+ISR (USART1_RX_vect)									// Changed from "USART_RXC_vect"
 {
 	uint8_t oldsrg = SREG;
 	cli();
-	RESPONSE_BUFFER[Counter] = UDR1;
+	RESPONSE_BUFFER[Counter] = UDR1;					// Was UDR
 	Counter++;
 	if(Counter == DEFAULT_BUFFER_SIZE){
 		Counter = 0; pointer = 0;
@@ -352,25 +353,34 @@ int main(void)
 	ESP8266_Start(0, DOMAIN, PORT);
 	while(1)
 	{
-		Connect_Status = ESP8266_connected();
-		if(Connect_Status == ESP8266_NOT_CONNECTED_TO_AP)
-		ESP8266_JoinAccessPoint(SSID, PASSWORD);
-		if(Connect_Status == ESP8266_TRANSMISSION_DISCONNECTED)
-		ESP8266_Start(0, DOMAIN, PORT);
+		DHT_WakeUp();									// Checks if DHT11 is online
+		int array[5][8];
+		if (DHT_Response())								// If DHT11 is active
+		{
+			
+			DHT_Decode_Data(array);						// Gets data from the DHT11, and puts it in an array. (The array has a pointer as default)
+			
+			Connect_Status = ESP8266_connected();
+			if(Connect_Status == ESP8266_NOT_CONNECTED_TO_AP)
+			ESP8266_JoinAccessPoint(SSID, PASSWORD);
+			if(Connect_Status == ESP8266_TRANSMISSION_DISCONNECTED)
+			ESP8266_Start(0, DOMAIN, PORT);
 
-		#ifdef SEND_DEMO
-		memset(_buffer, 0, 150);
-		sprintf(_buffer, "GET /update?api_key=%s&field3=%d", API_WRITE_KEY, Sample++);
-		ESP8266_Send(_buffer);
-		_delay_ms(15000);	/* Thingspeak server delay */
-		#endif
-		
-		#ifdef RECEIVE_DEMO
-		memset(_buffer, 0, 150);
-		sprintf(_buffer, "GET /channels/%s/feeds/last.txt", CHANNEL_ID);
-		ESP8266_Send(_buffer);
-		Read_Data(_buffer);
-		_delay_ms(600);
-		#endif
+			#ifdef SEND_DEMO							// Demo for sending data to an API
+			memset(_buffer, 0, 150);
+			// Sends out the url to the API with the Temp and Hum data that was read from the DHT11
+			sprintf(_buffer, "GET /update?api_key=%s&field1=%d&field2=%i", API_WRITE_KEY, ConvertToDecimal(array, 3), ConvertToDecimal(array, 1));
+			ESP8266_Send(_buffer);
+			_delay_ms(15000);	/* Thingspeak server delay */
+			#endif
+			
+			#ifdef RECEIVE_DEMO							// Demo for receiving data from an API
+			memset(_buffer, 0, 150);
+			sprintf(_buffer, "GET /channels/%s/feeds/last.txt", CHANNEL_ID);
+			ESP8266_Send(_buffer);
+			Read_Data(_buffer);
+			_delay_ms(600);
+			#endif
+		}
 	}
 }
