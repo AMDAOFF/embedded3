@@ -20,7 +20,13 @@
 -------------------------
 |	TxD		| Tx0 / Rx0	|
 -------------------------
-|	RxD		|	Tx1		|
+|	GND		|	  -		|
+-------------------------
+|	VCC		|	  +		|
+-------------------------
+|	RST		|	  +		|
+-------------------------
+|	CH_PD	|	  +		|
 -------------------------
 */
 
@@ -354,42 +360,46 @@ int main(void)
 	uint8_t Sample = 0;
 	#endif
 
-	USART_Init(115200);									/* Initiate USART with 115200 baud rate */
-	sei();												/* Start global interrupt */
+	USART_Init(115200);												/* Initiate USART with 115200 baud rate */
+	sei();															/* Start global interrupt */
 
 	while(!ESP8266_Begin());
-	ESP8266_WIFIMode(BOTH_STATION_AND_ACCESPOINT);		/* 3 = Both (AP and STA) */
-	ESP8266_ConnectionMode(SINGLE);						/* 0 = Single; 1 = Multi */
-	ESP8266_ApplicationMode(NORMAL);					/* 0 = Normal Mode; 1 = Transperant Mode */
-	if(ESP8266_connected() == ESP8266_NOT_CONNECTED_TO_AP)			// If not connected to wifi, create a connection
+	ESP8266_WIFIMode(BOTH_STATION_AND_ACCESPOINT);					/* 3 = Both (AP and STA) */
+	ESP8266_ConnectionMode(SINGLE);									/* 0 = Single; 1 = Multi */
+	ESP8266_ApplicationMode(NORMAL);								/* 0 = Normal Mode; 1 = Transperant Mode */
+	if(ESP8266_connected() == ESP8266_NOT_CONNECTED_TO_AP)			// If not connected to WIFI and API, create a connection
 	{			
 		ESP8266_JoinAccessPoint(SSID, PASSWORD);
 		ESP8266_Start(0, DOMAIN, PORT);
 	}
 	while(1)
 	{
-		DHT_WakeUp();									// Checks if DHT11 is online
+		DHT_WakeUp();												// Checks if DHT11 is online
 		int array[5][8];
-		if (DHT_Response())								// If DHT11 is active
+		if (DHT_Response())											// If DHT11 is active
 		{
 			
-			DHT_Decode_Data(array);						// Gets data from the DHT11, and puts it in an array. (The array has a pointer as default)
+			DHT_Decode_Data(array);									// Gets data from the DHT11, and puts it in an array. (The array has a pointer as default)
 			
 			Connect_Status = ESP8266_connected();
-			if(Connect_Status == ESP8266_NOT_CONNECTED_TO_AP)
-			ESP8266_JoinAccessPoint(SSID, PASSWORD);
-			if(Connect_Status == ESP8266_TRANSMISSION_DISCONNECTED)
-			ESP8266_Start(0, DOMAIN, PORT);
+			if(Connect_Status == ESP8266_NOT_CONNECTED_TO_AP)		// If not connected to WIFI
+			{
+				ESP8266_JoinAccessPoint(SSID, PASSWORD);			// Connect to WIFI
+			}
+			if(Connect_Status == ESP8266_TRANSMISSION_DISCONNECTED)	// If not connected to the API
+			{
+				ESP8266_Start(0, DOMAIN, PORT);						// Connect to API
+			}
 
-			#ifdef SEND_DEMO							// Demo for sending data to an API
+			#ifdef SEND_DEMO										// Demo for sending data to an API
 			memset(_buffer, 0, 150);
 			// Sends out the url to the API with the Temp and Hum data that was read from the DHT11
 			sprintf(_buffer, "GET /update?api_key=%s&field1=%d&field2=%i", API_WRITE_KEY, ConvertToDecimal(array, 3), ConvertToDecimal(array, 1));
 			ESP8266_Send(_buffer);
-			_delay_ms(15000);	/* Thingspeak server delay */
+			_delay_ms(15000);										/* Thingspeak server delay */
 			#endif
 			
-			#ifdef RECEIVE_DEMO							// Demo for receiving data from an API
+			#ifdef RECEIVE_DEMO										// Demo for receiving data from an API
 			memset(_buffer, 0, 150);
 			sprintf(_buffer, "GET /channels/%s/feeds/last.txt", CHANNEL_ID);
 			ESP8266_Send(_buffer);
