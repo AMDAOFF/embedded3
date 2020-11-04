@@ -34,7 +34,7 @@
 #include <stdlib.h>						/* Include standard library */
 #include <avr/interrupt.h>				/* Include avr interrupt header file */
 #include "USART_RS232_H_file.h"			/* Include USART header file */
-#include "DHT11_test.h"
+#include "DHT11.h"
 
 #define SREG    _SFR_IO8(0x3F)
 

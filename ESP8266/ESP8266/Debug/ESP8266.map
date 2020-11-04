@@ -29,7 +29,7 @@ c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/..
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_zero.o)
                               c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(addsf3x.o) (__fp_zero)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(gesf2.o)
-                              DHT11_test.o (__gesf2)
+                              DHT11.o (__gesf2)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(mulsf3.o)
                               USART_RS232_C_file.o (__mulsf3)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(mulsf3x.o)
@@ -102,9 +102,9 @@ Discarded input sections
 
  .data          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega2560/avr6/crtatmega2560.o
  .bss           0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .text          0x00000000        0x0 DHT11_test.o
- .data          0x00000000        0x0 DHT11_test.o
- .bss           0x00000000        0x0 DHT11_test.o
+ .text          0x00000000        0x0 DHT11.o
+ .data          0x00000000        0x0 DHT11.o
+ .bss           0x00000000        0x0 DHT11.o
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
@@ -341,7 +341,7 @@ Linker script and memory map
 
 Address of section .data set to 0x800200
 LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega2560/avr6/crtatmega2560.o
-LOAD DHT11_test.o
+LOAD DHT11.o
 LOAD main.o
 LOAD setup/stdio_setup.o
 LOAD USART_RS232_C_file.o
@@ -356,6 +356,8 @@ LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/b
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a
 LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega2560/avr6\libatmega2560.a
 END GROUP
+                0x00000000                __TEXT_REGION_ORIGIN__ = DEFINED (__TEXT_REGION_ORIGIN__)?__TEXT_REGION_ORIGIN__:0x0
+                0x00800200                __DATA_REGION_ORIGIN__ = DEFINED (__DATA_REGION_ORIGIN__)?__DATA_REGION_ORIGIN__:0x800200
                 0x00100000                __TEXT_REGION_LENGTH__ = DEFINED (__TEXT_REGION_LENGTH__)?__TEXT_REGION_LENGTH__:0x100000
                 0x0000fe00                __DATA_REGION_LENGTH__ = DEFINED (__DATA_REGION_LENGTH__)?__DATA_REGION_LENGTH__:0xfe00
                 0x00010000                __EEPROM_REGION_LENGTH__ = DEFINED (__EEPROM_REGION_LENGTH__)?__EEPROM_REGION_LENGTH__:0x10000
@@ -576,16 +578,16 @@ END GROUP
                 0x00000276                . = ALIGN (0x2)
  *(.text.*)
  .text.DHT_WakeUp
-                0x00000276       0x1c DHT11_test.o
+                0x00000276       0x1c DHT11.o
                 0x00000276                DHT_WakeUp
  .text.DHT_Response
-                0x00000292       0x5a DHT11_test.o
+                0x00000292       0x5a DHT11.o
                 0x00000292                DHT_Response
  .text.DHT_Decode_Data
-                0x000002ec       0x70 DHT11_test.o
+                0x000002ec       0x70 DHT11.o
                 0x000002ec                DHT_Decode_Data
  .text.ConvertToDecimal
-                0x0000035c       0x46 DHT11_test.o
+                0x0000035c       0x46 DHT11.o
                 0x0000035c                ConvertToDecimal
  .text.Read_Response
                 0x000003a2      0x21e main.o
@@ -871,19 +873,20 @@ END GROUP
 .stab.indexstr
  *(.stab.indexstr)
 
-.comment        0x00000000       0x5c
+.comment        0x00000000       0x8c
  *(.comment)
- .comment       0x00000000       0x30 DHT11_test.o
+ .comment       0x00000000       0x30 DHT11.o
                                  0x31 (size before relaxing)
  .comment       0x00000030       0x31 main.o
- .comment       0x00000030       0x31 USART_RS232_C_file.o
- .comment       0x00000030       0x2c c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libprintf_flt.a(vfprintf_flt.o)
+ .comment       0x00000030       0x30 USART_RS232_C_file.o
+                                 0x31 (size before relaxing)
+ .comment       0x00000060       0x2c c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libprintf_flt.a(vfprintf_flt.o)
                                  0x2d (size before relaxing)
- .comment       0x0000005c       0x2d c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libscanf_flt.a(vfscanf_flt.o)
- .comment       0x0000005c       0x31 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(fgetc.o)
- .comment       0x0000005c       0x31 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(fputc.o)
- .comment       0x0000005c       0x31 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(sprintf.o)
- .comment       0x0000005c       0x31 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(ungetc.o)
+ .comment       0x0000008c       0x2d c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libscanf_flt.a(vfscanf_flt.o)
+ .comment       0x0000008c       0x31 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(fgetc.o)
+ .comment       0x0000008c       0x31 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(fputc.o)
+ .comment       0x0000008c       0x31 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(sprintf.o)
+ .comment       0x0000008c       0x31 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(ungetc.o)
 
 .note.gnu.avr.deviceinfo
                 0x00000000       0x40
@@ -908,7 +911,7 @@ END GROUP
 .debug_aranges  0x00000000      0x128
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x38 DHT11_test.o
+                0x00000000       0x38 DHT11.o
  .debug_aranges
                 0x00000038       0xb8 main.o
  .debug_aranges
@@ -920,43 +923,43 @@ END GROUP
 .debug_info     0x00000000     0x1f33
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0xbbc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_info    0x00000bbc      0x2ce DHT11_test.o
+ .debug_info    0x00000bbc      0x2ce DHT11.o
  .debug_info    0x00000e8a      0xf6b main.o
  .debug_info    0x00001df5      0x13e USART_RS232_C_file.o
 
 .debug_abbrev   0x00000000     0x10f2
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0xb1a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_abbrev  0x00000b1a      0x183 DHT11_test.o
+ .debug_abbrev  0x00000b1a      0x183 DHT11.o
  .debug_abbrev  0x00000c9d      0x363 main.o
  .debug_abbrev  0x00001000       0xf2 USART_RS232_C_file.o
 
-.debug_line     0x00000000      0xc3f
+.debug_line     0x00000000      0xc35
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x1f9 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_line    0x000001f9      0x264 DHT11_test.o
- .debug_line    0x0000045d      0x68d main.o
- .debug_line    0x00000aea      0x155 USART_RS232_C_file.o
+ .debug_line    0x000001f9      0x25f DHT11.o
+ .debug_line    0x00000458      0x688 main.o
+ .debug_line    0x00000ae0      0x155 USART_RS232_C_file.o
 
 .debug_frame    0x00000000      0x3e8
  *(.debug_frame)
- .debug_frame   0x00000000       0x70 DHT11_test.o
+ .debug_frame   0x00000000       0x70 DHT11.o
  .debug_frame   0x00000070      0x318 main.o
  .debug_frame   0x00000388       0x60 USART_RS232_C_file.o
 
-.debug_str      0x00000000      0xb1e
+.debug_str      0x00000000      0xb66
  *(.debug_str)
  .debug_str     0x00000000      0x3e6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_str     0x000003e6      0x21a DHT11_test.o
-                                0x253 (size before relaxing)
- .debug_str     0x00000600      0x4d6 main.o
-                                0x73a (size before relaxing)
- .debug_str     0x00000ad6       0x48 USART_RS232_C_file.o
+ .debug_str     0x000003e6      0x218 DHT11.o
+                                0x251 (size before relaxing)
+ .debug_str     0x000005fe      0x4d6 main.o
+                                0x73d (size before relaxing)
+ .debug_str     0x00000ad4       0x92 USART_RS232_C_file.o
                                 0x1d5 (size before relaxing)
 
 .debug_loc      0x00000000      0xfcf
  *(.debug_loc)
- .debug_loc     0x00000000      0x28d DHT11_test.o
+ .debug_loc     0x00000000      0x28d DHT11.o
  .debug_loc     0x0000028d      0xc49 main.o
  .debug_loc     0x00000ed6       0xf9 USART_RS232_C_file.o
 
@@ -980,7 +983,7 @@ END GROUP
 
 .debug_ranges   0x00000000      0x128
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x40 DHT11_test.o
+ .debug_ranges  0x00000000       0x40 DHT11.o
  .debug_ranges  0x00000040       0xc0 main.o
  .debug_ranges  0x00000100       0x28 USART_RS232_C_file.o
 

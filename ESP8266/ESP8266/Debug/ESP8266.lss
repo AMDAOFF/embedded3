@@ -9,25 +9,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
   2 .bss          000000a9  008003a6  008003a6  00002766  2**0
                   ALLOC
-  3 .comment      0000005c  00000000  00000000  00002766  2**0
+  3 .comment      0000008c  00000000  00000000  00002766  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000027c4  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000027f4  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000128  00000000  00000000  00002804  2**0
+  5 .debug_aranges 00000128  00000000  00000000  00002834  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00001f33  00000000  00000000  0000292c  2**0
+  6 .debug_info   00001f33  00000000  00000000  0000295c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000010f2  00000000  00000000  0000485f  2**0
+  7 .debug_abbrev 000010f2  00000000  00000000  0000488f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000c3f  00000000  00000000  00005951  2**0
+  8 .debug_line   00000c35  00000000  00000000  00005981  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000003e8  00000000  00000000  00006590  2**2
+  9 .debug_frame  000003e8  00000000  00000000  000065b8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000b1e  00000000  00000000  00006978  2**0
+ 10 .debug_str    00000b66  00000000  00000000  000069a0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000fcf  00000000  00000000  00007496  2**0
+ 11 .debug_loc    00000fcf  00000000  00000000  00007506  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000128  00000000  00000000  00008465  2**0
+ 12 .debug_ranges 00000128  00000000  00000000  000084d5  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1395,7 +1395,7 @@ int ConvertToDecimal(int (*array)[8], int byte)
 
 00000a28 <__vector_36>:
 
-ISR (USART1_RX_vect)
+ISR (USART1_RX_vect)									// Changed from "USART_RXC_vect"
 {
      a28:	1f 92       	push	r1
      a2a:	0f 92       	push	r0
@@ -1413,7 +1413,7 @@ ISR (USART1_RX_vect)
      a40:	2f b7       	in	r18, 0x3f	; 63
 	cli();
      a42:	f8 94       	cli
-	RESPONSE_BUFFER[Counter] = UDR1;
+	RESPONSE_BUFFER[Counter] = UDR1;					// Was UDR
      a44:	e0 91 ac 03 	lds	r30, 0x03AC	; 0x8003ac <Counter>
      a48:	f0 91 ad 03 	lds	r31, 0x03AD	; 0x8003ad <Counter+0x1>
      a4c:	80 91 ce 00 	lds	r24, 0x00CE	; 0x8000ce <__TEXT_REGION_LENGTH__+0x7000ce>
@@ -1517,7 +1517,7 @@ int main(void)
 			if(Connect_Status == ESP8266_TRANSMISSION_DISCONNECTED)
 			ESP8266_Start(0, DOMAIN, PORT);
 
-			#ifdef SEND_DEMO
+			#ifdef SEND_DEMO							// Demo for sending data to an API
 			memset(_buffer, 0, 150);
      af0:	0f 2e       	mov	r0, r31
      af2:	f6 e9       	ldi	r31, 0x96	; 150
@@ -1526,6 +1526,7 @@ int main(void)
      af8:	8e 01       	movw	r16, r28
      afa:	0f 5f       	subi	r16, 0xFF	; 255
      afc:	1f 4f       	sbci	r17, 0xFF	; 255
+			// Sends out the url to the API with the Temp and Hum data that was read from the DHT11
 			sprintf(_buffer, "GET /update?api_key=%s&field1=%d&field2=%i", API_WRITE_KEY, ConvertToDecimal(array, 3), ConvertToDecimal(array, 1));
      afe:	0f 2e       	mov	r0, r31
      b00:	f9 e6       	ldi	r31, 0x69	; 105
@@ -1542,17 +1543,17 @@ int main(void)
 	ESP8266_Start(0, DOMAIN, PORT);
 	while(1)
 	{
-		DHT_WakeUp();
+		DHT_WakeUp();									// Checks if DHT11 is online
      b12:	ff 2e       	mov	r15, r31
 		int array[5][8];
-		if (DHT_Response())
+		if (DHT_Response())								// If DHT11 is active
      b14:	f0 2d       	mov	r31, r0
      b16:	af db       	rcall	.-2210   	; 0x276 <DHT_WakeUp>
      b18:	bc db       	rcall	.-2184   	; 0x292 <DHT_Response>
      b1a:	89 2b       	or	r24, r25
 		{
 			
-			DHT_Decode_Data(array);
+			DHT_Decode_Data(array);						// Gets data from the DHT11, and puts it in an array. (The array has a pointer as default)
      b1c:	e1 f3       	breq	.-8      	; 0xb16 <main+0x76>
      b1e:	ce 01       	movw	r24, r28
      b20:	89 56       	subi	r24, 0x69	; 105
@@ -1582,12 +1583,13 @@ int main(void)
      b44:	80 e0       	ldi	r24, 0x00	; 0
      b46:	b7 de       	rcall	.-658    	; 0x8b6 <ESP8266_Start>
 
-			#ifdef SEND_DEMO
+			#ifdef SEND_DEMO							// Demo for sending data to an API
 			memset(_buffer, 0, 150);
      b48:	f8 01       	movw	r30, r16
      b4a:	29 2d       	mov	r18, r9
      b4c:	11 92       	st	Z+, r1
      b4e:	2a 95       	dec	r18
+			// Sends out the url to the API with the Temp and Hum data that was read from the DHT11
 			sprintf(_buffer, "GET /update?api_key=%s&field1=%d&field2=%i", API_WRITE_KEY, ConvertToDecimal(array, 3), ConvertToDecimal(array, 1));
      b50:	e9 f7       	brne	.-6      	; 0xb4c <main+0xac>
      b52:	61 e0       	ldi	r22, 0x01	; 1
@@ -1650,12 +1652,6 @@ int main(void)
 		}
 	}
      bac:	e8 ec       	ldi	r30, 0xC8	; 200
-
-char USART_RxChar()									/* Data receiving function */
-{
-	while (!(UCSR1A & (1 << RXC1)));					/* Wait until new data receive */
-	return(UDR1);									/* Get and return received data */ 
-}
      bae:	f0 e0       	ldi	r31, 0x00	; 0
      bb0:	20 81       	ld	r18, Z
      bb2:	22 60       	ori	r18, 0x02	; 2
@@ -1695,49 +1691,26 @@ char USART_RxChar()									/* Data receiving function */
      bfa:	08 95       	ret
 
 00000bfc <USART_TxChar>:
-
-void USART_TxChar(char data)						/* Data transmitting function */
-{
-	UDR1 = data;										/* Write data to be transmitting in UDR */
      bfc:	80 93 ce 00 	sts	0x00CE, r24	; 0x8000ce <__TEXT_REGION_LENGTH__+0x7000ce>
-	while (!(UCSR1A & (1<<UDRE1)));					/* Wait until data transmit and buffer get empty */
      c00:	e8 ec       	ldi	r30, 0xC8	; 200
      c02:	f0 e0       	ldi	r31, 0x00	; 0
      c04:	80 81       	ld	r24, Z
      c06:	85 ff       	sbrs	r24, 5
      c08:	fd cf       	rjmp	.-6      	; 0xc04 <USART_TxChar+0x8>
-}
      c0a:	08 95       	ret
 
 00000c0c <USART_SendString>:
-
-void USART_SendString(char *str)					/* Send string of USART data function */ 
-{
      c0c:	cf 93       	push	r28
      c0e:	df 93       	push	r29
      c10:	ec 01       	movw	r28, r24
-	int i=0;																	
-	while (str[i]!=0)
      c12:	88 81       	ld	r24, Y
      c14:	88 23       	and	r24, r24
      c16:	29 f0       	breq	.+10     	; 0xc22 <USART_SendString+0x16>
      c18:	21 96       	adiw	r28, 0x01	; 1
-	{
-		USART_TxChar(str[i]);						/* Send each char of string till the NULL */
      c1a:	f0 df       	rcall	.-32     	; 0xbfc <USART_TxChar>
-}
-
-void USART_SendString(char *str)					/* Send string of USART data function */ 
-{
-	int i=0;																	
-	while (str[i]!=0)
      c1c:	89 91       	ld	r24, Y+
      c1e:	81 11       	cpse	r24, r1
      c20:	fc cf       	rjmp	.-8      	; 0xc1a <USART_SendString+0xe>
-	{
-		USART_TxChar(str[i]);						/* Send each char of string till the NULL */
-		i++;
-	}
      c22:	df 91       	pop	r29
      c24:	cf 91       	pop	r28
      c26:	08 95       	ret

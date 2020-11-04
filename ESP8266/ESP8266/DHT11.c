@@ -1,11 +1,11 @@
 /*
- * DHT11_test.c
+ * DHT11.c
  *
  * Created: 02-11-2020 08:17:02
- *  Author: Kenneth
+ *  Author: Kenneth, Krisitan og Jimmy ;)
  */ 
 
-#include "DHT11_test.h"
+#include "DHT11.h"
 #include <avr/io.h>
 #include <util/twi.h>
 #include <util/delay.h>

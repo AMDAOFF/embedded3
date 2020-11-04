@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
-DHT11_test.c
+DHT11.c
 
 main.c
 
